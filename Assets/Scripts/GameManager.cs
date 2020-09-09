@@ -7,10 +7,13 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
 
-    GameObject character;
-    public int sanity = 100;
+    Character character;
+    Match match;
+    int health;
+    int sanity;
+    int lamp;
 
-    // Start is called before the first frame update
+    public UIManager uiManager;
 
     public static GameManager Instance
     {
@@ -32,18 +35,26 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        character = GameObject.Find("Character");
+        character = GameObject.Find("Character").GetComponent<Character>();
+        match = GameObject.Find("Match").GetComponent<Match>();
+        sanity = character.maxSanity;
+        health = character.maxHealth;
+        lamp = match.maxLight;
+
+        StartCoroutine("DrainLight");
     }
 
-    public void OnExtinguish(bool drain)
+    public void OnExtinguish(bool extinguished)
     {
-        if (drain)
+        if (extinguished)
         {
             StartCoroutine("DrainSanity");
+            StopCoroutine("DrainLight");
         }
-        else if (!drain)
+        else if (!extinguished)
         {
             StopCoroutine("DrainSanity");
+            StartCoroutine("DrainLight");
         }
     }
 
@@ -52,9 +63,25 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             sanity -= 1;
-            yield return new WaitForSeconds(.1f);
+            uiManager.SetSanity(sanity);
+            yield return new WaitForSeconds(.25f);
         }
         
+    }
+
+    IEnumerator DrainLight()
+    {
+        while(true)
+        {
+            lamp -= 1;
+            uiManager.SetLight(lamp);
+            yield return new WaitForSeconds(2f);
+        }
+    }
+
+    void GameOver()
+    {
+
     }
 
 

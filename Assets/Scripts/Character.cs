@@ -5,6 +5,11 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
 
+    public int maxHealth = 100;
+    public int maxSanity = 100;
+    public int currentHealth;
+    public int currentSanity;
+
     float movement;
     public float movementSpeed = 4f;
     Animator animator;
@@ -13,13 +18,10 @@ public class Character : MonoBehaviour
     void Start()
     {
         animator = transform.Find("CharacterGraphic").gameObject.GetComponent<Animator>();
+        currentHealth = maxHealth;
+        currentSanity = maxSanity;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void FixedUpdate()
     {
@@ -44,4 +46,6 @@ public class Character : MonoBehaviour
 
         transform.position += new Vector3(movement, 0f) * Time.deltaTime * movementSpeed;
     }
+
+
 }

@@ -1,18 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public Slider sanitySlider;
+    public Slider healthSlider;
+    public Slider lightSlider;
+
+    public void SetSanity(int sanity)
     {
-        
+        sanitySlider.value = sanity;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetHealth(int health)
     {
-        
+        healthSlider.value = health;
     }
+
+    public void SetLight(int light)
+    {
+        lightSlider.value = light;
+    }
+
 }

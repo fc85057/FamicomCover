@@ -4,43 +4,39 @@ using UnityEngine;
 
 public class Match : MonoBehaviour
 {
-    bool extinguished;
+    public int maxLight = 100;
+    public int currentLight;
+    public SpriteRenderer shadow;
+
+    public bool extinguished;
     Animator animator;
     SpriteMask spriteMask;
+    
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         spriteMask = GetComponentInChildren<SpriteMask>();
+        currentLight = maxLight;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+
+        if (Input.GetMouseButtonDown(1))
         {
-            Extinguish();
+            SetLamp();
         }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            LightMatch();
-        }
-            
+    
     }
 
-    void Extinguish()
+    void SetLamp()
     {
-        extinguished = true;
+        extinguished = !extinguished;
         animator.SetBool("extinguished", extinguished);
-        spriteMask.enabled = false;
-        GameManager.Instance.OnExtinguish(extinguished);
-    }
-
-    void LightMatch()
-    {
-        extinguished = false;
-        animator.SetBool("extinguished", extinguished);
-        spriteMask.enabled = true;
+        spriteMask.enabled = !extinguished;
+        shadow.enabled = !extinguished;
         GameManager.Instance.OnExtinguish(extinguished);
     }
 }
